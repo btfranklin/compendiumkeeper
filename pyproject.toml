@@ -1,0 +1,45 @@
+[project]
+name = "compendiumkeeper"
+version = "0.1.0"
+description = "A package that enables vector-based search across compendia created with Compendium Scribe"
+authors = [
+    {name = "B.T. Franklin", email = "brandon.franklin@gmail.com"},
+]
+dependencies = ["click>=8.1.7", "python-dotenv>=1.0.1", "openai>=1.57.0", "pinecone>=5.4.1"]
+requires-python = ">=3.13"
+readme = "README.md"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Environment :: Console",
+]
+
+[project.urls]
+Homepage = "https://github.com/btfranklin/compendiumkeeper"
+Issues = "https://github.com/btfranklin/compendiumkeeper/issues"
+Changelog = "https://github.com/btfranklin/compendiumkeeper/releases"
+Repository = "https://github.com/btfranklin/compendiumkeeper.git"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=8.3.4",
+    "flake8>=7.1.1",
+]
+
+[project.scripts]
+create-compendium = "compendiumkeeper.cli:main"
