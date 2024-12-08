@@ -120,8 +120,8 @@ MIT License
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-## Contact
+## License
 
-For any questions or support, please contact [your.email@example.com](mailto:your.email@example.com).
+Promptdown is released under the [MIT License](LICENSE).
