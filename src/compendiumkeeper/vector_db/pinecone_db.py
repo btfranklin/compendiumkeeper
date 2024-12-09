@@ -16,7 +16,7 @@ class PineconeDB(VectorDatabase):
             raise RuntimeError("PINECONE_API_KEY must be set in the .env file.")
 
         # Initialize the Pinecone client
-        self.pc = Pinecone(api_key=api_key)
+        self.pinecone = Pinecone(api_key=api_key)
 
         # Hard-coded defaults for this application
         dimension = 1536  # Suitable for text-embedding-ada-002
@@ -26,9 +26,9 @@ class PineconeDB(VectorDatabase):
         )  # Adjust region as needed
 
         # Create index if it doesn't exist
-        if index_name not in self.pc.list_indexes():
+        if index_name not in self.pinecone.list_indexes():
             try:
-                self.pc.create_index(
+                self.pinecone.create_index(
                     name=index_name, dimension=dimension, metric=metric, spec=spec
                 )
                 print(
@@ -39,7 +39,7 @@ class PineconeDB(VectorDatabase):
         else:
             print(f"Pinecone index '{index_name}' already exists.")
 
-        self.index = self.pc.Index(index_name)
+        self.index = self.pinecone.Index(index_name)
 
     def upsert_concept_embeddings(self, embedding_data: dict):
         vectors = []
