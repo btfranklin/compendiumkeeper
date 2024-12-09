@@ -1,6 +1,4 @@
-# compendiumkeeper/cli.py
 import click
-import sys
 import os
 from dotenv import load_dotenv
 
@@ -25,18 +23,19 @@ def index_cmd(compendium_file):
     load_dotenv()
 
     # Derive index name from compendium file
-    # e.g., cell_biology_2024-12-05.compendium.pickle -> cell_biology_2024-12-05
-    base_name = os.path.basename(
-        compendium_file
-    )  # e.g. cell_biology_2024-12-05.compendium.pickle
-    root, ext = os.path.splitext(
-        base_name
-    )  # root=cell_biology_2024-12-05.compendium, ext=.pickle
+    # e.g., synthetic_technocracy_2024-12-01.compendium.pickle -> synthetic_technocracy_2024-12-01
+    base_name = os.path.basename(compendium_file)
+    root, ext = os.path.splitext(base_name)
     if root.endswith(".compendium"):
         index_name = root[: -len(".compendium")]
     else:
-        # If for some reason it doesn't match, just use the root
         index_name = root
+
+    # Pinecone requires the name to be lowercase alphanumeric or '-'.
+    # So we will:
+    # 1. Lowercase the entire name
+    # 2. Replace underscores with dashes
+    index_name = index_name.lower().replace("_", "-")
 
     try:
         index_compendium(
@@ -47,7 +46,7 @@ def index_cmd(compendium_file):
         click.secho("Indexing complete!", fg="green")
     except Exception as e:
         click.secho(f"Error: {e}", fg="red", err=True)
-        sys.exit(1)
+        SystemExit(1)
 
 
 if __name__ == "__main__":
