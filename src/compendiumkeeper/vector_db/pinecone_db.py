@@ -21,12 +21,26 @@ class PineconeDB(VectorDatabase):
         # Hard-coded defaults for this application
         dimension = 1536  # Suitable for text-embedding-ada-002
         metric = "cosine"
-        spec = ServerlessSpec(
-            cloud="aws", region="us-east-1"
-        )  # Adjust region as needed
+        spec = ServerlessSpec(cloud="aws", region="us-east-1")
+
+        # If index already exists, clear it out
+        if index_name in self.pinecone.list_indexes().names():
+            print(
+                f"Pinecone index '{index_name}' already exists. Deleting all vectors..."
+            )
+            try:
+                index_description = self.pinecone.describe_index(index_name)
+                self.index_host = index_description.host
+                index = self.pinecone.Index(host=self.index_host)
+                index.delete(delete_all=True)
+                print("All vectors deleted.")
+            except Exception as e:
+                raise RuntimeError(
+                    f"Error deleting vectors from Pinecone index '{index_name}': {e}"
+                )
 
         # Create index if it doesn't exist
-        if index_name not in self.pinecone.list_indexes():
+        if index_name not in self.pinecone.list_indexes().names():
             try:
                 self.pinecone.create_index(
                     name=index_name, dimension=dimension, metric=metric, spec=spec
@@ -34,12 +48,13 @@ class PineconeDB(VectorDatabase):
                 print(
                     f"Pinecone index '{index_name}' created with dimension {dimension}, metric '{metric}', cloud '{spec.cloud}', region '{spec.region}'."
                 )
+                index_description = self.pinecone.describe_index_stats(index_name)
+                self.index_host = index_description.host
+                print(f"Index host is {self.index_host}")
             except Exception as e:
                 raise RuntimeError(f"Error creating Pinecone index '{index_name}': {e}")
-        else:
-            print(f"Pinecone index '{index_name}' already exists.")
 
-        self.index = self.pinecone.Index(index_name)
+        self.index = self.pinecone.Index(host=self.index_host)
 
     def upsert_concept_embeddings(self, embedding_data: dict):
         vectors = []
