@@ -191,7 +191,7 @@ files = [
 
 [[package]]
 name = "openai"
-version = "1.57.0"
+version = "1.57.1"
 requires_python = ">=3.8"
 summary = "The official Python library for the openai API"
 groups = ["default"]
@@ -206,8 +206,8 @@ dependencies = [
     "typing-extensions<5,>=4.11",
 ]
 files = [
-    {file = "openai-1.57.0-py3-none-any.whl", hash = "sha256:972e36960b821797952da3dc4532f486c28e28a2a332d7d0c5407f242e9d9c39"},
-    {file = "openai-1.57.0.tar.gz", hash = "sha256:76f91971c4bdbd78380c9970581075e0337b5d497c2fbf7b5255078f4b31abf9"},
+    {file = "openai-1.57.1-py3-none-any.whl", hash = "sha256:3865686c927e93492d1145938d4a24b634951531c4b2769d43ca5dbd4b25d8fd"},
+    {file = "openai-1.57.1.tar.gz", hash = "sha256:a95f22e04ab3df26e64a15d958342265e802314131275908b3b3e36f8c5d4377"},
 ]
 
 [[package]]
@@ -226,7 +226,7 @@ files = [
 
 [[package]]
 name = "pinecone"
-version = "5.4.1"
+version = "5.4.2"
 requires_python = "<4.0,>=3.8"
 summary = "Pinecone client and SDK"
 groups = ["default"]
@@ -241,8 +241,8 @@ dependencies = [
     "urllib3>=1.26.5; python_version ~= \"3.12\"",
 ]
 files = [
-    {file = "pinecone-5.4.1-py3-none-any.whl", hash = "sha256:10a79ce77727dfc4f9e16f36baead9062366bafb93d5c1d97338d8d7212e6e1c"},
-    {file = "pinecone-5.4.1.tar.gz", hash = "sha256:daba837a66d2bbfce9e1330821982945c2315b773cfcbc42b06751ff631e632a"},
+    {file = "pinecone-5.4.2-py3-none-any.whl", hash = "sha256:1fad082c66a50a229b58cda0c3a1fa0083532dc9de8303015fe4071cb25c19a8"},
+    {file = "pinecone-5.4.2.tar.gz", hash = "sha256:23e8aaa73b400bb11a3b626c4129284fb170f19025b82f65bd89cbb0dab2b873"},
 ]
 
 [[package]]
