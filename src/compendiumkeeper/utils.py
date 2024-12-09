@@ -1,6 +1,7 @@
 import re
-import openai
 import os
+
+from openai import OpenAI
 
 
 def slugify(name: str) -> str:
@@ -19,16 +20,22 @@ def get_openai_api_key() -> str:
 
 
 def get_embedding(text: str) -> list[float]:
-    openai.api_key = get_openai_api_key()
-    try:
-        response = openai.Embedding.create(input=[text], model="text-embedding-ada-002")
-        return response["data"][0]["embedding"]
-    except Exception as e:
-        print(f"Error generating embedding for text '{text}': {e}")
-        return []
+    """
+    Generate an embedding for the given text using the new OpenAI client.
+    """
+    api_key = get_openai_api_key()
+    client = OpenAI(api_key=api_key)
+    response = client.embeddings.create(model="text-embedding-ada-002", input=text)
+    # response is an object; we can access its fields directly
+    # response.data is a list of embeddings for each input
+    # We passed a single string as input, so response.data should have one entry
+    return response.data[0].embedding
 
 
 def get_embedding_data(concept, topic_summary: str, topic_name: str):
+    """
+    Prepare embedding data for a concept, including name, content, questions, keywords, and combined keywords.
+    """
     concept_id = generate_concept_id(topic_name, concept.name)
 
     name_text = concept.name
@@ -37,7 +44,7 @@ def get_embedding_data(concept, topic_summary: str, topic_name: str):
     keyword_texts = concept.keywords
     combined_keywords = " ".join(keyword_texts) if keyword_texts else None
 
-    embedding_data = {
+    return {
         "concept_id": concept_id,
         "name": (name_text, get_embedding(name_text)),
         "content": (content_text, get_embedding(content_text)),
@@ -49,5 +56,3 @@ def get_embedding_data(concept, topic_summary: str, topic_name: str):
             else None
         ),
     }
-
-    return embedding_data
