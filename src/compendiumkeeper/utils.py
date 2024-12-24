@@ -1,14 +1,15 @@
 import re
 import os
-
 from openai import OpenAI
 
 
 def slugify(name: str) -> str:
+    """Convert a string to snake_case."""
     return re.sub(r"[^a-z0-9]+", "_", name.strip().lower()).strip("_")
 
 
 def generate_concept_id(topic_name: str, concept_name: str) -> str:
+    """Generate a unique concept ID by combining topic and concept names."""
     return f"{slugify(topic_name)}_{slugify(concept_name)}"
 
 
@@ -25,16 +26,16 @@ def get_embedding(text: str) -> list[float]:
     """
     api_key = get_openai_api_key()
     client = OpenAI(api_key=api_key)
+
+    # Create a single embedding
     response = client.embeddings.create(model="text-embedding-ada-002", input=text)
-    # response is an object; we can access its fields directly
-    # response.data is a list of embeddings for each input
-    # We passed a single string as input, so response.data should have one entry
     return response.data[0].embedding
 
 
 def get_embedding_data(concept, topic_summary: str, topic_name: str):
     """
-    Prepare embedding data for a concept, including name, content, questions, keywords, and combined keywords.
+    Prepare embedding data for a concept, including name, content, questions, keywords,
+    and combined keywords.
     """
     concept_id = generate_concept_id(topic_name, concept.name)
 
