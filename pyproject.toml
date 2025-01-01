@@ -35,11 +35,11 @@ build-backend = "pdm.backend"
 [tool.pdm]
 distribution = true
 
-[tool.pdm.dev-dependencies]
+[project.scripts]
+create-compendium = "compendiumkeeper.cli:main"
+
+[dependency-groups]
 dev = [
     "pytest>=8.3.4",
     "flake8>=7.1.1",
 ]
-
-[project.scripts]
-create-compendium = "compendiumkeeper.cli:main"
